@@ -1,10 +1,10 @@
 package com.target_ready.data.pipeline.clenser
 
 import org.apache.spark.sql.{Column, DataFrame}
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.functions.{col, _}
 import org.apache.spark.sql.expressions.Window
 import com.target_ready.data.pipeline.constants.ApplicationConstants._
-import com.target_ready.data.pipeline.services.FileWriterService.{writeNullDataToOutputDir,writeDataToOutputDir}
+import com.target_ready.data.pipeline.services.FileWriterService.{writeDataToOutputDir, writeNullDataToOutputDir}
 import org.apache.spark.internal.Logging
 
 object Clenser extends Logging {
@@ -49,7 +49,7 @@ object Clenser extends Logging {
     val nullDf: DataFrame = dfCheckNullKeyRows.filter(dfCheckNullKeyRows("nullFlag") === true)
     val notNullDf: DataFrame = dfCheckNullKeyRows.filter(dfCheckNullKeyRows("nullFlag") === false).drop("nullFlag")
 
-    writeNullDataToOutputDir(nullDf, fileFormat, filePath)
+//    writeNullDataToOutputDir(nullDf, fileFormat, filePath)
 
     notNullDf
   }
@@ -107,11 +107,10 @@ object Clenser extends Logging {
    *  @param df     the dataframe
    *  @return       dataframe with lowercase columns
    *  ============================================================================================================ */
-  def lowercaseColumns(df: DataFrame): DataFrame = {
-    val columns = df.columns
+  def lowercaseColumns(df: DataFrame, columnsToLowercase: Seq[String]): DataFrame = {
     var resultDf = df
 
-    for (colm <- columns) resultDf = resultDf.withColumn(colm, lower(col(colm)))
+    for (colm <- columnsToLowercase) resultDf = resultDf.withColumn(colm, lower(col(colm)))
     resultDf
   }
 
@@ -125,18 +124,10 @@ object Clenser extends Logging {
    *  @return       trimmed dataframe
    *  ============================================================================================================ */
   def trimColumn(df: DataFrame): DataFrame = {
-    val columns = df.columns
-    var resultDf = df
-
-    for (colm <- columns) {
-      resultDf = df.withColumn(colm, trim(col(colm)))
-      resultDf = df.withColumn(colm, ltrim(col(colm)))
-      resultDf = df.withColumn(colm, rtrim(col(colm)))
-    }
-    resultDf
+    var trimmedDf: DataFrame = df
+    for (n <- df.columns) trimmedDf = trimmedDf.withColumn(n, trim(col(n)))
+    trimmedDf
   }
-
-
 
 
   /** ==============================================================================================================

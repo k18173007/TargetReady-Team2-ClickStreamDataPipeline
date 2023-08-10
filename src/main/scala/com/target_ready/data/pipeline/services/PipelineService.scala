@@ -105,8 +105,8 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *                                 Converting REMOVED_NULL_VAL_DF to LOWERCASE
      *  ============================================================================================================ */
-    val LOWERCASE_ITEM_DATA_DF = lowercaseColumns(REMOVED_DUP_VAL_DF)
-    val LOWERCASE_CLICKSTREAM_DF = lowercaseColumns(REMOVED_DUP_VAL_CLICKSTREAM_DF)
+    val LOWERCASE_ITEM_DATA_DF = lowercaseColumns(REMOVED_DUP_VAL_DF,COLUMNS_TO_LOWERCASE_ITEM_DATA)
+    val LOWERCASE_CLICKSTREAM_DF = lowercaseColumns(REMOVED_DUP_VAL_CLICKSTREAM_DF,COLUMNS_TO_LOWERCASE_CLICKSTREAM_DATA)
     logInfo("Converting REMOVED_NULL_VAL_DF to LOWERCASE Complete")
 
 
@@ -122,7 +122,7 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *              Saving the final transformed data in output location in required output format(.orc)
      *  ============================================================================================================ */
-    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, TABLE_NAME, JDBC_URL, USER_NAME, KEY_PASSWORD)
+    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, TABLE_NAME, JDBC_URL, USER_NAME, KEY_PASSWORD,TIMEOUT)
     logInfo("Writing data into MySql table complete")
   }
 }

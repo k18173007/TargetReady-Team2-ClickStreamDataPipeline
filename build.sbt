@@ -30,13 +30,9 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.33"
 //logging library
 
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.29"
-//// https://mvnrepository.com/artifact/io.airlift/log
-//libraryDependencies += "io.airlift" % "log" % "235"
-//// https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-//libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % "2.14.1"
-//
-//libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.32"
-//libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.6"
+
+//for doing testing
+libraryDependencies +="org.scalatest" %% "scalatest" % "3.1.0" % Test
 
 
 

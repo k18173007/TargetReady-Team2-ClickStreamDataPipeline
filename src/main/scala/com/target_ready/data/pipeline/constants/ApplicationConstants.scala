@@ -52,6 +52,7 @@ object ApplicationConstants {
   val COLUMNS_PRIMARY_KEY_ITEM_DATA: Seq[String] = Seq(ApplicationConstants.ITEM_ID)
   val COLUMN_NAMES_ITEM_DATA: List[String] = List(ITEM_ID, ITEM_PRICE, PRODUCT_TYPE, DEPARTMENT_NAME)
   val COLUMNS_CHECK_NULL_DQ_CHECK_ITEM_DATA: Seq[String] = Seq(ApplicationConstants.ITEM_ID)
+  val COLUMNS_TO_LOWERCASE_ITEM_DATA:Seq[String]=Seq(ApplicationConstants.DEPARTMENT_NAME)
 
 
   //  ClickStream Data
@@ -66,6 +67,7 @@ object ApplicationConstants {
   val COLUMN_NAMES_CLICKSTREAM_DATA: Seq[String] = Seq(ApplicationConstants.ID, ApplicationConstants.EVENT_TIMESTAMP, ApplicationConstants.DEVICE_TYPE, ApplicationConstants.SESSION_ID, ApplicationConstants.VISITOR_ID, ApplicationConstants.ITEM_ID, ApplicationConstants.REDIRECTION_SOURCE)
   val COLUMNS_CHECK_NULL_DQ_CHECK_CLICKSTREAM_DATA: Seq[String] = Seq(ApplicationConstants.SESSION_ID, ApplicationConstants.ID, ApplicationConstants.VISITOR_ID)
   val EVENT_TIMESTAMP_OPTION: String = "event_timestamp"
+  val COLUMNS_TO_LOWERCASE_CLICKSTREAM_DATA:Seq[String]=Seq(ApplicationConstants.DEVICE_TYPE,ApplicationConstants.REDIRECTION_SOURCE)
 
 
   //  timestamp datatype and timestamp format for changing datatype
@@ -105,6 +107,8 @@ object ApplicationConstants {
   val USER_NAME: String = "root"
   val KEY_PASSWORD: String = "Krishna@123"
 
+  // Timeout
+  val TIMEOUT: Int = 15000
 
   /** ============================================================================================================
    * PIPELINE EXIT CODES

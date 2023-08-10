@@ -4,7 +4,7 @@ import com.target_ready.data.pipeline.constants.ApplicationConstants
 import com.target_ready.data.pipeline.exceptions._
 import com.target_ready.data.pipeline.services.PipelineService
 import com.target_ready.data.pipeline.services.DqCheckService
-import com.target_ready.data.pipeline.util.sparkSession.createSparkSession
+import com.target_ready.data.pipeline.util.ApplicationUtil.createSparkSession
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 

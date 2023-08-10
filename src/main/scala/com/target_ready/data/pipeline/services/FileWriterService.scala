@@ -45,7 +45,7 @@ object FileWriterService {
         .option("path", filePath)
         .option("checkpointLocation", CHECKPOINT_LOCATION)
         .start()
-        .awaitTermination(10000)
+        .awaitTermination(2000)
 
     } catch {
       case e: Exception => FileWriterException("Unable to write files to the location: " + filePath)
@@ -65,7 +65,7 @@ object FileWriterService {
    *  @param user        MySql database username
    *  @param password    MySql database password
    *  ============================================================================================================ */
-  def writeDataToSqlServer(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String): Unit = {
+  def writeDataToSqlServer(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String, timeout:Int): Unit = {
     df.writeStream
       .foreachBatch { (batchDF: DataFrame, batchId: Long) =>
         batchDF.write
@@ -79,7 +79,7 @@ object FileWriterService {
           .save()
       }
       .outputMode(OutputMode.Append())
-      .start().awaitTermination(150000)
+      .start().awaitTermination(timeout)
   }
 
 

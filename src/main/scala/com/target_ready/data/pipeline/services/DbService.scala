@@ -12,14 +12,14 @@ object DbService {
    * @param df        the dataframe taken as an input
    * @param tableName MySql table name
    * ============================================================================================================ */
-  def sqlWriter(df: DataFrame, tableName: String, url: String): Unit = {
+  def sqlWriter(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String): Unit = {
 
     val connectionProperties = new java.util.Properties()
-    connectionProperties.put("user", USER_NAME)
-    connectionProperties.put("password", KEY_PASSWORD)
-    connectionProperties.put("driver", JDBC_DRIVER)
+    connectionProperties.put("user", user)
+    connectionProperties.put("password", password)
+    connectionProperties.put("driver", driver)
 
-    df.write.mode(SaveMode.Overwrite).jdbc(url, tableName, connectionProperties)
+    df.write.mode(SaveMode.Overwrite).jdbc(jdbcUrl, tableName, connectionProperties)
   }
 
 
