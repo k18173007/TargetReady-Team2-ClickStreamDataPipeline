@@ -17,6 +17,8 @@ object ApplicationConstants {
 
   val CHECKPOINT_LOCATION: String = "checkpoint"
 
+
+
   /** ===============================================================================================================
    * INPUT-OUTPUT formats, paths
    *  ============================================================================================================== */
@@ -37,6 +39,7 @@ object ApplicationConstants {
 
   //  Null value file path
   val NULL_VALUE_FILE_FORMAT: String = "orc"
+
 
 
   /** ===============================================================================================================
@@ -91,6 +94,7 @@ object ApplicationConstants {
   val ROW_CONDITION: String = "row_number == 1"
 
 
+
   /** ============================================================================================================
    * MYSQL SERVER CONFIGURATIONS
    * ============================================================================================================ */
@@ -111,11 +115,13 @@ object ApplicationConstants {
   val SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT: Int = 150000
   val SAVE_DATA_TO_LOCAL_DIR_TIMEOUT: Int = 10000
 
+
+
   /** ============================================================================================================
    * PIPELINE EXIT CODES
    * ============================================================================================================ */
 
-  val FAILURE_EXIT_CODE: Int = 1
-  val SUCCESS_EXIT_CODE: Int = 0
+  val FAILURE_EXIT_CODE: Int = 0
+  val SUCCESS_EXIT_CODE: Int = 1
 
 }

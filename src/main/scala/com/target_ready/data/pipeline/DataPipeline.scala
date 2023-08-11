@@ -10,20 +10,19 @@ import org.apache.spark.sql.SparkSession
 
 object DataPipeline extends Logging {
 
-  var exitCode: Int = ApplicationConstants.FAILURE_EXIT_CODE
+  var exitCode: Int = ApplicationConstants.SUCCESS_EXIT_CODE
 
   def main(args: Array[String]): Unit = {
 
     /** ==============================================================================================================
-     *                                            Creating Spark Session
+     *                                              Creating Spark Session
      *  ============================================================================================================ */
     val spark: SparkSession = createSparkSession()
     logInfo("Creating Spark Session complete.")
 
 
-
     /** ==============================================================================================================
-     *                                              Executing Pipeline
+     *                                               Executing Pipeline
      *  ============================================================================================================ */
     try {
 

@@ -1,7 +1,6 @@
 package com.target_ready.data.pipeline.dqCheck
 
 import com.target_ready.data.pipeline.Helper.Helper
-import com.target_ready.data.pipeline.constants.ApplicationConstants.COLUMNS_CHECK_NULL_DQ_CHECK_CLICKSTREAM_DATA
 import com.target_ready.data.pipeline.dqCheck.DqCheckMethods.{dqNullCheck, DqDuplicateCheck}
 import com.target_ready.data.pipeline.services.DbService.sqlReader
 import org.apache.spark.sql.DataFrame

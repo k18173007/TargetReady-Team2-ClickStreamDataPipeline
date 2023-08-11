@@ -3,7 +3,6 @@ package com.target_ready.data.pipeline.Helper
 
 import com.target_ready.data.pipeline.constants.ApplicationConstants
 import com.target_ready.data.pipeline.util.ApplicationUtil.createSparkSession
-import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
 trait Helper {

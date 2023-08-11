@@ -4,7 +4,7 @@ import com.target_ready.data.pipeline.services.FileReaderService._
 import com.target_ready.data.pipeline.services.FileWriterService._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import com.target_ready.data.pipeline.constants.ApplicationConstants._
-import com.target_ready.data.pipeline.clenser.Clenser._
+import com.target_ready.data.pipeline.cleanser.Cleanser._
 import com.target_ready.data.pipeline.transform.JoinTransformation._
 import org.apache.spark.internal.Logging
 
@@ -93,9 +93,6 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *                               Removing duplicate rows from REMOVED_NULL_VAL_DF
      *  ============================================================================================================ */
-    //    val REMOVED_DUP_VAL_DF = removeDuplicates(REMOVED_NULL_VAL_DF, COLUMNS_PRIMARY_KEY_ITEM_DATA, None)
-    //    val REMOVED_DUP_VAL_CLICKSTREAM_DF = removeDuplicates(REMOVED_NULL_VAL_CLICKSTREAM_DF, COLUMNS_PRIMARY_KEY_CLICKSTREAM, None)
-
     val REMOVED_DUP_VAL_DF = dropDuplicates(REMOVED_NULL_VAL_DF, COLUMNS_PRIMARY_KEY_ITEM_DATA)
     val REMOVED_DUP_VAL_CLICKSTREAM_DF = dropDuplicates(REMOVED_NULL_VAL_CLICKSTREAM_DF, COLUMNS_PRIMARY_KEY_CLICKSTREAM)
     logInfo("Removing duplicate rows from REMOVED_NULL_VAL_DF Complete")

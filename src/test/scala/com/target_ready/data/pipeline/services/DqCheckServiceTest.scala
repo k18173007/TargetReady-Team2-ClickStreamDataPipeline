@@ -5,7 +5,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import com.target_ready.data.pipeline.dqCheck.DqCheckMethods.{DqDuplicateCheck, dqNullCheck}
 import com.target_ready.data.pipeline.services.DbService.{sqlReader, sqlWriter}
 import org.apache.spark.sql.DataFrame
-import org.scalatest.flatspec.AnyFlatSpec
+
 
 class DqCheckServiceTest extends AnyFlatSpec with Helper {
 

@@ -65,21 +65,25 @@ object FileWriterService {
    *  @param user        MySql database username
    *  @param password    MySql database password
    *  ============================================================================================================ */
-  def writeDataToSqlServer(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String, timeout:Int): Unit = {
-    df.writeStream
-      .foreachBatch { (batchDF: DataFrame, batchId: Long) =>
-        batchDF.write
-          .format("jdbc")
-          .option("driver", driver)
-          .option("url", jdbcUrl)
-          .option("dbtable", tableName)
-          .option("user", user)
-          .option("password", password)
-          .mode("overwrite")
-          .save()
-      }
-      .outputMode(OutputMode.Append())
-      .start().awaitTermination(150000)
+  def writeDataToSqlServer(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String, timeout: Int): Unit = {
+    try {
+      df.writeStream
+        .foreachBatch { (batchDF: DataFrame, batchId: Long) =>
+          batchDF.write
+            .format("jdbc")
+            .option("driver", driver)
+            .option("url", jdbcUrl)
+            .option("dbtable", tableName)
+            .option("user", user)
+            .option("password", password)
+            .mode("overwrite")
+            .save()
+        }
+        .outputMode(OutputMode.Append())
+        .start().awaitTermination(150000)
+    } catch {
+      case e: Exception => FileWriterException("Unable to write files to the location: " + jdbcUrl + "/" + tableName)
+    }
   }
 
 

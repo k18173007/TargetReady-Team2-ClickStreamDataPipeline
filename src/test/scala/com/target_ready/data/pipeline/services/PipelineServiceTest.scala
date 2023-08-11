@@ -1,7 +1,7 @@
 package com.target_ready.data.pipeline.services
 
 import com.target_ready.data.pipeline.Helper.Helper
-import com.target_ready.data.pipeline.clenser.Clenser.{concatenateColumns, dataTypeValidation, dropDuplicates, findRemoveNullKeys, lowercaseColumns, splitColumns, trimColumn, uppercaseColumns}
+import com.target_ready.data.pipeline.cleanser.Cleanser.{concatenateColumns, dataTypeValidation, dropDuplicates, findRemoveNullKeys, lowercaseColumns, splitColumns, trimColumn, uppercaseColumns}
 import com.target_ready.data.pipeline.services.DbService.sqlReader
 import com.target_ready.data.pipeline.services.FileReaderService.{loadDataFromStream, readFile}
 import com.target_ready.data.pipeline.services.FileWriterService.{writeDataToSqlServer, writeDataToStream}

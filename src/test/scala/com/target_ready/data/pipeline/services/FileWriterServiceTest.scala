@@ -5,8 +5,7 @@ import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 import com.target_ready.data.pipeline.services.FileReaderService._
 import com.target_ready.data.pipeline.services.FileWriterService._
-import com.target_ready.data.pipeline.clenser.Clenser._
-import com.target_ready.data.pipeline.constants.ApplicationConstants.TOPIC_NAME_ITEM_DATA
+import com.target_ready.data.pipeline.cleanser.Cleanser._
 import com.target_ready.data.pipeline.services.DbService.{sqlReader, sqlWriter}
 
 
