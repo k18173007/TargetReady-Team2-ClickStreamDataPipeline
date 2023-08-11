@@ -29,10 +29,10 @@ libraryDependencies += "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.4.1"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.33"
 //logging library
 
-libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.29"
+libraryDependencies += "org.slf4j" % "slf4j-api" % "2.0.5"
 
 //for doing testing
-libraryDependencies +="org.scalatest" %% "scalatest" % "3.1.0" % Test
+libraryDependencies +="org.scalatest" %% "scalatest" % "3.2.15" % Test
 
 
 

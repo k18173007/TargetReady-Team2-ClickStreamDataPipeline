@@ -26,7 +26,7 @@ object DqCheckService extends Logging {
 
     /** ========================================== WRITING TO PROD TABLE IN MYSQL ========================================== */
     if (dfCheckNull && dfCheckDuplicate) {
-      sqlWriter(dfReadStaged, TABLE_NAME_FINAL, JDBC_URL)
+      sqlWriter(dfReadStaged,JDBC_DRIVER ,TABLE_NAME_FINAL, JDBC_URL, USER_NAME, KEY_PASSWORD)
       logInfo("Data write to production table complete.")
     }
 

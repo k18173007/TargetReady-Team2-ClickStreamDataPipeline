@@ -11,6 +11,9 @@ object ApplicationUtil {
   def createSparkSession(): SparkSession = {
       SparkSession.builder()
         .appName(APP_NAME)
+        .config("spark.sql.broadcastTimeout", "1800")
+        .config("spark.sql.autoBroadcastJoinThreshold", "20485760")
+        .config("spark.sql.autoBroadcastJoinThreshold", "-1")
         .master(MASTER_SERVER)
         .getOrCreate()
   }

@@ -122,7 +122,7 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *              Saving the final transformed data in output location in required output format(.orc)
      *  ============================================================================================================ */
-    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, TABLE_NAME, JDBC_URL, USER_NAME, KEY_PASSWORD,TIMEOUT)
+    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, TABLE_NAME, JDBC_URL, USER_NAME, KEY_PASSWORD,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
     logInfo("Writing data into MySql table complete")
   }
 }

@@ -37,7 +37,7 @@ object FileWriterService {
    *  @param filePath       the location where null values will be written
    *  @param fileFormat     specifies format of the file
    *  ==============================================================================================================*/
-  def writeDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String): Unit = {
+  def writeDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String,timeout:Int): Unit = {
     try {
       df.writeStream
         .outputMode("append")
@@ -45,7 +45,7 @@ object FileWriterService {
         .option("path", filePath)
         .option("checkpointLocation", CHECKPOINT_LOCATION)
         .start()
-        .awaitTermination(2000)
+        .awaitTermination(10000)
 
     } catch {
       case e: Exception => FileWriterException("Unable to write files to the location: " + filePath)
@@ -79,7 +79,7 @@ object FileWriterService {
           .save()
       }
       .outputMode(OutputMode.Append())
-      .start().awaitTermination(timeout)
+      .start().awaitTermination(150000)
   }
 
 
@@ -92,7 +92,7 @@ object FileWriterService {
    *  @param filePath       the location where null values will be written
    *  @param fileFormat     specifies format of the file
    *  ============================================================================================================== */
-  def writeNullDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String): Unit = {
+  def writeNullDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String,timeout:Int): Unit = {
     try {
       df.writeStream
         .outputMode("append")

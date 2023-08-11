@@ -28,7 +28,6 @@ object DbService {
   /** ===============================================================================================================
    * FUNCTIONS TO SAVE DATA INTO SQL TABLE
    *
-   * @param df            the dataframe taken as an input
    * @param driver        MySql driver
    * @param tableName     MySql table name
    * @param jdbcUrl       jdbc URL

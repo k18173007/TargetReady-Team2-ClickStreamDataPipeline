@@ -12,8 +12,8 @@ object ApplicationConstants {
   val MASTER_SERVER: String = "local[*]"
 
   //  Kafka Topic Names
-  val TOPIC_NAME_ITEM_DATA: String = "itemDataTest"
-  val TOPIC_NAME_CLICKSTREAM_DATA: String = "clickStreamDataTest"
+  val TOPIC_NAME_ITEM_DATA: String = "FinalTestingITEM"
+  val TOPIC_NAME_CLICKSTREAM_DATA: String = "FinalTestingCLICKSTREAM"
 
   val CHECKPOINT_LOCATION: String = "checkpoint"
 
@@ -108,7 +108,8 @@ object ApplicationConstants {
   val KEY_PASSWORD: String = "Krishna@123"
 
   // Timeout
-  val TIMEOUT: Int = 15000
+  val SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT: Int = 150000
+  val SAVE_DATA_TO_LOCAL_DIR_TIMEOUT: Int = 10000
 
   /** ============================================================================================================
    * PIPELINE EXIT CODES
