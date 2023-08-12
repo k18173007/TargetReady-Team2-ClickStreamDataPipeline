@@ -15,18 +15,20 @@ object DqCheckMethods {
   /** ===============================================================================================================
    * FUNCTION TO CHECK NULL VALUES
    *
-   * @param df1           the dataframe1 taken as an input
+   * @param df            the dataframe1 taken as an input
    * @param keyColumns    column names on which the checks need to be performed
    * @return              true: if no null value is found and vice-versa
    * ============================================================================================================= */
   def dqNullCheck(df: DataFrame, keyColumns: Seq[String]): Boolean = {
 
     val columnNames: Seq[Column] = keyColumns.map(c => col(c))
+
     val condition: Column = columnNames.map(c => c.isNull || c === "" || c.contains("NULL") || c.contains("null")).reduce(_ || _)
     val dfCheckNullKeyRows: DataFrame = df.withColumn("nullFlag", when(condition, value = true).otherwise(value = false))
 
     val nullDf: DataFrame = dfCheckNullKeyRows.filter(dfCheckNullKeyRows("nullFlag") === true)
     if (nullDf.count() > 0) throw DqNullCheckException("The file contains nulls")
+
     true
 
   }
@@ -48,6 +50,8 @@ object DqCheckMethods {
       .filter(col(ROW_NUMBER) === 1).drop(ROW_NUMBER)
 
     if (df.count() != dfDropDuplicate.count()) throw DqDupCheckException("The file contains duplicate")
+
     true
+
   }
 }

@@ -1,20 +1,39 @@
 package com.target_ready.data.pipeline.util
 
 import org.apache.spark.sql.SparkSession
-import  com.target_ready.data.pipeline.constants.ApplicationConstants.{APP_NAME,MASTER_SERVER}
+import java.util.Properties
+import com.target_ready.data.pipeline.exceptions.FileReaderException
 
 object ApplicationUtil {
 
   /** ==============================================================================================================
-   *                                       FUNCTION TO CREATE SPARK SESSION
+   *                                        FUNCTION TO CREATE SPARK SESSION
    *  ============================================================================================================ */
   def createSparkSession(): SparkSession = {
+
+    val properties = new Properties()
+
+    // Read properties from the configuration file
+    try {
+      val configFile = getClass.getResourceAsStream("/spark.properties")
+      properties.load(configFile)
+    } catch {
+      case e: Exception =>
+        FileReaderException("Error loading configuration file: /spark.properties")
+    }
+
+
+    // Creating spark session
+    val spark: SparkSession =
       SparkSession.builder()
-        .appName(APP_NAME)
-        .config("spark.sql.broadcastTimeout", "1800")
-        .config("spark.sql.autoBroadcastJoinThreshold", "20485760")
-        .config("spark.sql.autoBroadcastJoinThreshold", "-1")
-        .master(MASTER_SERVER)
+        .appName(properties.getProperty("spark.app.name"))
+        .master(properties.getProperty("spark.master"))
+        .config("spark.executor.memory", properties.getProperty("spark.executor.memory"))
+        .config("spark.sql.broadcastTimeout", properties.getProperty("spark.sql.broadcastTimeout"))
+        .config("spark.sql.autoBroadcastJoinThreshold", properties.getProperty("spark.sql.autoBroadcastJoinThreshold"))
         .getOrCreate()
+    spark
   }
+
 }
+

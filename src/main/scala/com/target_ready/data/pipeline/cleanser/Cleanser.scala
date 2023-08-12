@@ -17,13 +17,16 @@ object Cleanser extends Logging {
    * @return            dataframe with updated data type
    * =============================================================================================================*/
   def dataTypeValidation(df: DataFrame, columnNames: Seq[String], dataTypes: Seq[String]): DataFrame = {
+
     var dfChangedDataType: DataFrame = df
+
     for (i <- columnNames.indices) {
       if (dataTypes(i) == TIMESTAMP_DATATYPE)
-        dfChangedDataType = dfChangedDataType.withColumn(columnNames(i), unix_timestamp(col(columnNames(i)), TTIMESTAMP_FORMAT).cast(TIMESTAMP_DATATYPE))
+        dfChangedDataType = dfChangedDataType.withColumn(columnNames(i), unix_timestamp(col(columnNames(i)), TIMESTAMP_FORMAT).cast(TIMESTAMP_DATATYPE))
       else
         dfChangedDataType = dfChangedDataType.withColumn(columnNames(i), col(columnNames(i)).cast(dataTypes(i)))
     }
+
     dfChangedDataType
   }
 
@@ -42,6 +45,7 @@ object Cleanser extends Logging {
   def findRemoveNullKeys(df: DataFrame, primaryColumns: Seq[String], filePath: String, fileFormat: String): DataFrame = {
 
     val columnNames: Seq[Column] = primaryColumns.map(ex => col(ex))
+
     val condition: Column = columnNames.map(c => c.isNull || c === "" || c.contains("NULL") || c.contains("null")).reduce(_ || _)
     val dfCheckNullKeyRows: DataFrame = df.withColumn("nullFlag", when(condition, value = true).otherwise(value = false))
 
@@ -62,8 +66,7 @@ object Cleanser extends Logging {
    * @param df                the dataframe
    * @param primaryKeyColumns sequence of primary key columns of the df dataframe
    * @return dataframe with no duplicates
-   *         ============================================================================================================ */
-
+   * ============================================================================================================ */
   def dropDuplicates(df: DataFrame, primaryKeyColumns: Seq[String]): DataFrame = {
     df.dropDuplicates(primaryKeyColumns)
   }
@@ -77,10 +80,12 @@ object Cleanser extends Logging {
    *  @return       dataframe with uppercase columns
    *  ============================================================================================================ */
   def uppercaseColumns(df: DataFrame): DataFrame = {
+
     val columns = df.columns
     var resultDf = df
 
     for (colm <- columns) resultDf = resultDf.withColumn(colm, upper(col(colm)))
+
     resultDf
   }
 
@@ -94,9 +99,10 @@ object Cleanser extends Logging {
    *  @return       dataframe with lowercase columns
    *  ============================================================================================================ */
   def lowercaseColumns(df: DataFrame, columnsToLowercase: Seq[String]): DataFrame = {
-    var resultDf = df
 
+    var resultDf = df
     for (colm <- columnsToLowercase) resultDf = resultDf.withColumn(colm, lower(col(colm)))
+
     resultDf
   }
 
@@ -110,8 +116,10 @@ object Cleanser extends Logging {
    *  @return       trimmed dataframe
    *  ============================================================================================================ */
   def trimColumn(df: DataFrame): DataFrame = {
+
     var trimmedDf: DataFrame = df
     for (n <- df.columns) trimmedDf = trimmedDf.withColumn(n, trim(col(n)))
+
     trimmedDf
   }
 
@@ -126,9 +134,11 @@ object Cleanser extends Logging {
    * @return                            return dataframe with original column names
    *  ============================================================================================================ */
   def splitColumns(df: DataFrame, ConcatenatedColumnName: String, separator: String, originalColumnNames: Seq[String]): DataFrame = {
+
     val splitCols = originalColumnNames.zipWithIndex.map { case (colName, index) =>
       split(col(ConcatenatedColumnName), separator).getItem(index).alias(colName)
     }
+
     df.select(splitCols: _*)
   }
 
@@ -145,9 +155,7 @@ object Cleanser extends Logging {
    *  @return               return concatenated dataframe
    *  =========================================================================================================== */
   def concatenateColumns(df: DataFrame, columnNames: Seq[String],newColumnName:String,separator:String): DataFrame = {
-
     df.withColumn(newColumnName, concat_ws(separator, columnNames.map(col): _*))
-
   }
 
 }

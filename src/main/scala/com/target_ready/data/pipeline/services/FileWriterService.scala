@@ -110,4 +110,5 @@ object FileWriterService {
       case e: Exception => FileWriterException("Unable to write files to the location: " + filePath)
     }
   }
+
 }

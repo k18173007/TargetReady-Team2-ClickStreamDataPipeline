@@ -43,7 +43,6 @@ object PipelineService extends Logging {
     val LOAD_DF_ITEM_DATA_DF = loadDataFromStream(TOPIC_NAME_ITEM_DATA)(spark)
     val LOAD_CLICKSTREAM_DF = loadDataFromStream(TOPIC_NAME_CLICKSTREAM_DATA)(spark)
     logInfo("Subscribing to the topic and reading data from stream Complete")
-    //LOAD_CLICKSTREAM_DF.printSchema()
 
 
     /** ==============================================================================================================
@@ -119,7 +118,9 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *              Saving the final transformed data in output location in required output format(.orc)
      *  ============================================================================================================ */
-    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, TABLE_NAME, JDBC_URL, USER_NAME, KEY_PASSWORD,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
+    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, STAGING_TABLE, JDBC_URL, USER_NAME, KEY_PASSWORD,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
     logInfo("Writing data into MySql table complete")
+
   }
+
 }

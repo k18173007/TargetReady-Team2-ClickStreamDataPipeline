@@ -3,13 +3,11 @@ package com.target_ready.data.pipeline.constants
 object ApplicationConstants {
 
   /** ===============================================================================================================
-   * SERVER CONFIG PROPS
+   *                                                SERVER CONFIG PROPS
    *  ============================================================================================================== */
 
-  //  Spark Session Configs
+  //  Host server id
   val SERVER_ID: String = "localhost:9092"
-  val APP_NAME: String = "TargetReady-Team2-ClickStreamDataPipeline"
-  val MASTER_SERVER: String = "local[*]"
 
   //  Kafka Topic Names
   val TOPIC_NAME_ITEM_DATA: String = "FinalTestingITEM"
@@ -18,9 +16,8 @@ object ApplicationConstants {
   val CHECKPOINT_LOCATION: String = "checkpoint"
 
 
-
   /** ===============================================================================================================
-   * INPUT-OUTPUT formats, paths
+   *                                              INPUT-OUTPUT formats, paths
    *  ============================================================================================================== */
 
   //  ITEM_DATA
@@ -41,9 +38,8 @@ object ApplicationConstants {
   val NULL_VALUE_FILE_FORMAT: String = "orc"
 
 
-
   /** ===============================================================================================================
-   * INPUT DATA COLUMN NAMES
+   *                                              INPUT DATA COLUMN NAMES
    *  ============================================================================================================== */
 
   //  Item Data
@@ -55,7 +51,7 @@ object ApplicationConstants {
   val COLUMNS_PRIMARY_KEY_ITEM_DATA: Seq[String] = Seq(ApplicationConstants.ITEM_ID)
   val COLUMN_NAMES_ITEM_DATA: List[String] = List(ITEM_ID, ITEM_PRICE, PRODUCT_TYPE, DEPARTMENT_NAME)
   val COLUMNS_CHECK_NULL_DQ_CHECK_ITEM_DATA: Seq[String] = Seq(ApplicationConstants.ITEM_ID)
-  val COLUMNS_TO_LOWERCASE_ITEM_DATA:Seq[String]=Seq(ApplicationConstants.DEPARTMENT_NAME)
+  val COLUMNS_TO_LOWERCASE_ITEM_DATA: Seq[String] = Seq(ApplicationConstants.DEPARTMENT_NAME)
 
 
   //  ClickStream Data
@@ -70,12 +66,12 @@ object ApplicationConstants {
   val COLUMN_NAMES_CLICKSTREAM_DATA: Seq[String] = Seq(ApplicationConstants.ID, ApplicationConstants.EVENT_TIMESTAMP, ApplicationConstants.DEVICE_TYPE, ApplicationConstants.SESSION_ID, ApplicationConstants.VISITOR_ID, ApplicationConstants.ITEM_ID, ApplicationConstants.REDIRECTION_SOURCE)
   val COLUMNS_CHECK_NULL_DQ_CHECK_CLICKSTREAM_DATA: Seq[String] = Seq(ApplicationConstants.SESSION_ID, ApplicationConstants.ID, ApplicationConstants.VISITOR_ID)
   val EVENT_TIMESTAMP_OPTION: String = "event_timestamp"
-  val COLUMNS_TO_LOWERCASE_CLICKSTREAM_DATA:Seq[String]=Seq(ApplicationConstants.DEVICE_TYPE,ApplicationConstants.REDIRECTION_SOURCE)
+  val COLUMNS_TO_LOWERCASE_CLICKSTREAM_DATA: Seq[String] = Seq(ApplicationConstants.DEVICE_TYPE, ApplicationConstants.REDIRECTION_SOURCE)
 
 
   //  timestamp datatype and timestamp format for changing datatype
   val TIMESTAMP_DATATYPE: String = "timestamp"
-  val TTIMESTAMP_FORMAT: String = "MM/dd/yyyy H:mm"
+  val TIMESTAMP_FORMAT: String = "MM/dd/yyyy H:mm"
 
   //  column for Changing DATATYPE
   val COLUMNS_VALID_DATATYPE_CLICKSTREAM: Seq[String] = Seq(ApplicationConstants.EVENT_TIMESTAMP)
@@ -94,31 +90,31 @@ object ApplicationConstants {
   val ROW_CONDITION: String = "row_number == 1"
 
 
-
   /** ============================================================================================================
-   * MYSQL SERVER CONFIGURATIONS
+   *                                            MYSQL SERVER CONFIGURATIONS
    * ============================================================================================================ */
 
-  //  jdbc configurations
-  val JDBC_URL: String = "jdbc:mysql://localhost:3306/stream1"
-  val JDBC_DRIVER: String = "com.mysql.cj.jdbc.Driver"
-
-  // MySql Table Names
-  val TABLE_NAME = "staging"
-  val TABLE_NAME_FINAL = "prod"
-
-  //  MySql Server Username, Password
+  //  Database Configurations
+  val DB_NAME: String = "stream1"
   val USER_NAME: String = "root"
   val KEY_PASSWORD: String = "Krishna@123"
+  val MYSQL_SERVER_ID_PORT:String="localhost:3306"
+
+  // MySql Table Names
+  val STAGING_TABLE = "staging"
+  val PROD_TABLE = "prod"
+
+  //  jdbc configurations
+  val JDBC_URL: String = "jdbc:mysql://" + ApplicationConstants.MYSQL_SERVER_ID_PORT + "/" + ApplicationConstants.DB_NAME
+  val JDBC_DRIVER: String = "com.mysql.cj.jdbc.Driver"
 
   // Timeout
   val SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT: Int = 150000
   val SAVE_DATA_TO_LOCAL_DIR_TIMEOUT: Int = 10000
 
 
-
   /** ============================================================================================================
-   * PIPELINE EXIT CODES
+   *                                              PIPELINE EXIT CODES
    * ============================================================================================================ */
 
   val FAILURE_EXIT_CODE: Int = 0

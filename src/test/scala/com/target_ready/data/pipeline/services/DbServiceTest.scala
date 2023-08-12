@@ -13,7 +13,6 @@ class DbServiceTest extends AnyFlatSpec with Helper {
   val testDfCount: Long = testDf.count()
 
 
-
   /* =================================================================================================================
                                         Testing  Write Data to MySql Database Method
     ================================================================================================================*/

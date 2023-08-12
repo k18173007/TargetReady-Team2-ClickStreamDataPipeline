@@ -1,5 +1,6 @@
 package com.target_ready.data.pipeline.services
-import com.target_ready.data.pipeline.constants.ApplicationConstants._
+
+import com.target_ready.data.pipeline.exceptions.{FileReaderException,FileWriterException}
 import org.apache.spark.sql._
 
 
@@ -19,7 +20,13 @@ object DbService {
     connectionProperties.put("password", password)
     connectionProperties.put("driver", driver)
 
-    df.write.mode(SaveMode.Overwrite).jdbc(jdbcUrl, tableName, connectionProperties)
+    try {
+      df.write.mode(SaveMode.Overwrite).jdbc(jdbcUrl, tableName, connectionProperties)
+    }
+    catch {
+      case e: Exception => FileWriterException("Unable to write files to the location: " + jdbcUrl + " table: " + tableName)
+    }
+
   }
 
 
@@ -42,7 +49,22 @@ object DbService {
     connectionProperties.put("password", password)
     connectionProperties.put("driver", driver)
 
-    val df: DataFrame = spark.read.jdbc(jdbcUrl, tableName, connectionProperties)
-    df
+    val MySqlTableData_df: DataFrame =
+
+      try {
+        spark.read.jdbc(jdbcUrl, tableName, connectionProperties)
+      }
+      catch {
+        case e: Exception => {
+          FileReaderException("Unable to read file from: " + jdbcUrl + " table: " + tableName)
+          spark.emptyDataFrame
+        }
+      }
+
+    val readFileDataCount: Long = MySqlTableData_df.count()
+    if (readFileDataCount == 0) throw FileReaderException("Input Table is empty: " + jdbcUrl + " table: " + tableName)
+
+    MySqlTableData_df
   }
+
 }

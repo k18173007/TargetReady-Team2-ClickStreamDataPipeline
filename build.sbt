@@ -9,12 +9,14 @@ val mysqlJavaConnectorVersion: String = "8.0.33"
 
 libraryDependencies ++= Seq(
 
-  //spark core libraries
+  //  Spark core libraries
   "org.apache.spark" %% "spark-core" % sparkVersion,
   "org.apache.spark" %% "spark-streaming" % sparkVersion,
   "org.apache.spark" %% "spark-sql" % sparkVersion,
 
-  //  streaming libraries
+  "com.typesafe" % "config" % "1.4.1",
+
+  //  Streaming libraries
   "org.apache.kafka" % "kafka-clients" % sparkVersion,
   "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion,
   "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion,
@@ -23,10 +25,10 @@ libraryDependencies ++= Seq(
   "com.microsoft.azure" %% "spark-mssql-connector" % sparkSqlConnectorVersion,
   "mysql" % "mysql-connector-java" % mysqlJavaConnectorVersion,
 
-  //logging library
+  //  logging library
   "org.slf4j" % "slf4j-api" % "2.0.5",
 
-  //Testing library
+  //  Testing library
   "org.scalatest" %% "scalatest" % "3.2.15" % Test
 )
 

@@ -46,6 +46,7 @@ object FileReaderService {
    *  @return         dataframe of loaded data
    *  ============================================================================================================ */
   def loadDataFromStream(topic: String)(implicit spark: SparkSession): DataFrame = {
+
     val readFileData_df: DataFrame = {
       try {
         spark
@@ -64,6 +65,8 @@ object FileReaderService {
         }
       }
     }
+
     readFileData_df
   }
+
 }
