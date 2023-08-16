@@ -2,9 +2,28 @@ package com.target_ready.data.pipeline.services
 
 import com.target_ready.data.pipeline.exceptions.{FileReaderException,FileWriterException}
 import org.apache.spark.sql._
-
+import java.util.Properties
 
 object DbService {
+
+  val properties = new Properties()
+
+  // Read properties from the configuration file
+  try {
+    val configFile = getClass.getResourceAsStream("/mySqlConfig.properties")
+    properties.load(configFile)
+  } catch {
+    case e: Exception =>
+      FileReaderException("Error loading configuration file: /mySqlConfig.properties")
+  }
+
+  // MySql Connection Properties
+  val connectionProperties = new java.util.Properties()
+  connectionProperties.put("user",properties.getProperty("spark.mysql.username"))
+  connectionProperties.put("password",properties.getProperty("spark.mysql.password"))
+  connectionProperties.put("driver", properties.getProperty("spark.mysql.driver"))
+
+
 
   /** ===============================================================================================================
    * FUNCTIONS TO SAVE DATA INTO SQL TABLE
@@ -13,12 +32,7 @@ object DbService {
    * @param df        the dataframe taken as an input
    * @param tableName MySql table name
    * ============================================================================================================ */
-  def sqlWriter(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String): Unit = {
-
-    val connectionProperties = new java.util.Properties()
-    connectionProperties.put("user", user)
-    connectionProperties.put("password", password)
-    connectionProperties.put("driver", driver)
+  def sqlWriter(df: DataFrame, tableName: String, jdbcUrl: String): Unit = {
 
     try {
       df.write.mode(SaveMode.Overwrite).jdbc(jdbcUrl, tableName, connectionProperties)
@@ -35,19 +49,11 @@ object DbService {
   /** ===============================================================================================================
    * FUNCTIONS TO SAVE DATA INTO SQL TABLE
    *
-   * @param driver        MySql driver
    * @param tableName     MySql table name
    * @param jdbcUrl       jdbc URL
-   * @param user          MySql database username
-   * @param password      MySql database password
    * @return              dataframe of loaded data from MySql table
    * ============================================================================================================= */
-  def sqlReader(driver: String, tableName: String, jdbcUrl: String, user: String, password: String)(implicit spark: SparkSession): DataFrame = {
-
-    val connectionProperties = new java.util.Properties()
-    connectionProperties.put("user", user)
-    connectionProperties.put("password", password)
-    connectionProperties.put("driver", driver)
+  def sqlReader(tableName: String, jdbcUrl: String)(implicit spark: SparkSession): DataFrame = {
 
     val MySqlTableData_df: DataFrame =
 

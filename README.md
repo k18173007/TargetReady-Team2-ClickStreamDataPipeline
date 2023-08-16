@@ -2,8 +2,8 @@
 
 _Contains code and other configurations required to process clickstream data
 
-## Usecase
-The pipeline read static data, transform, performs data quality checks and load data to a structured database and draw insights out of the dataset in form of visualizations.
+## Use Case
+The pipeline reads static data, transform, performs data quality checks and load data to a structured database and draw insights out of the dataset in form of visualizations.
 
 ### Source
 Source of data for this pipeline is the clickstream and item dataset in the CSV format.
@@ -21,7 +21,7 @@ The code reads data from input source directory and write it into kafka stream. 
 
 ### Instructions
 
-To run the code in your environment change the following variables in ApplicationConstants file
+To run the code in your environment change the following variables in ApplicationConstants and mySqlConfig file
 
 ````
 SERVER_ID
@@ -33,6 +33,9 @@ USER_NAME
 KEY_PASSWORD
 STAGING_TABLE
 PROD_TABLE
+Username: mySqlConfig.properties 
+Password: mySqlConfig.properties 
+Priver: mySqlConfig.properties 
 ````
 
 

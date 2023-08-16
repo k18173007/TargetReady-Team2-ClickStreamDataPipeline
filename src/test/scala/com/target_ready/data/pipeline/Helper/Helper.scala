@@ -82,6 +82,9 @@ trait Helper {
   val TABLE_NAME_TEST = "stagingTest"
   val TABLE_NAME_FINAL_TEST = "prodTest"
 
+  // MySql join Table for Testing
+  val JOIN_TABLE_NAME_TEST = "joinTableTesting"
+
 
   //  MySql Server Username, Password
   val USER_NAME_TEST: String = "root"

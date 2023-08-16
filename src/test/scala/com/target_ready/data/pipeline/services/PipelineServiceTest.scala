@@ -14,6 +14,8 @@ class PipelineServiceTest extends AnyFlatSpec with Helper {
   val testDf: DataFrame = readFile(writeTestCaseInputPath, FILE_FORMAT_TEST)(spark)
   val testDfCount: Long = testDf.count()
 
+
+
   /* =================================================================================================================
                                           Testing Pipeline Service
     ================================================================================================================*/
@@ -39,11 +41,11 @@ class PipelineServiceTest extends AnyFlatSpec with Helper {
 
 
       //  Saving the data into staging MySql table
-      writeDataToSqlServer(lowercaseColumnsDf, JDBC_DRIVER_TEST, TABLE_NAME_TEST, JDBC_URL_TEST, USER_NAME_TEST, KEY_PASSWORD_TEST, TIMEOUT_TEST)
+      writeDataToSqlServer(lowercaseColumnsDf, TABLE_NAME_TEST, JDBC_URL_TEST, TIMEOUT_TEST)
 
 
       //  Reading the staged data and comparing it with Input data
-      val sqlReaderDf: DataFrame = sqlReader(JDBC_DRIVER_TEST, TABLE_NAME_TEST, JDBC_URL_TEST, USER_NAME_TEST, KEY_PASSWORD_TEST)(spark)
+      val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
       val sqlReaderDfCount = sqlReaderDf.count()
 
 

@@ -15,9 +15,9 @@ class JoinTransformationTest extends AnyFlatSpec with Helper{
   "join() method" should "perform inner join of two dataframes" in {
     import spark.implicits._
     val clickstreamDf : DataFrame = Seq(
-      ("29839","11/15/2020 15:11","android","B000078","I7099","B17543","GOOGLE"),
-      ("30504","11/15/2020 15:27","android","B000078","I7099","B19304","LinkedIn"),
-      ("30334","11/15/2020 15:23","android","B000078","I7099","B29093","Youtube")
+      ("29839","11-15-2020 15:11:00","android","B000078","I7099","B17543","GOOGLE"),
+      ("30504","11-15-2020 15:27:00","android","B000078","I7099","B19304","LinkedIn"),
+      ("30334","11-15-2020 15:23:00","android","B000078","I7099","B29093","Youtube")
     ).toDF("id","event_timestamp","device_type","session_id","visitor_id","item_id","redirection_source")
     val itemDf : DataFrame = Seq(
       ("B17543","6784","D634","Garden & Outdoors"),
@@ -28,12 +28,12 @@ class JoinTransformationTest extends AnyFlatSpec with Helper{
     ).toDF("item_id","item_price","product_type","department_name")
 
     val jointDf: DataFrame = joinTable(clickstreamDf, itemDf,JOIN_KEY_TESTING,JOIN_TYPE_TESTING)
-    sqlWriter(jointDf, JDBC_DRIVER_TEST, "joinTableTesting", JDBC_URL_TEST, USER_NAME_TEST, KEY_PASSWORD_TEST)
+    sqlWriter(jointDf, JOIN_TABLE_NAME_TEST, JDBC_URL_TEST)
 
     val expectedDf : DataFrame = Seq(
-      ("B17543","29839","2020-11-15 15:11:00","android","B000078","I7099","GOOGLE","6784","D634","Garden & Outdoors"),
-      ("B19304","30504","2020-11-15 15:27:00","android","B000078","I7099","LinkedIn","1320.5","C159","Baby"),
-      ("B29093","30334","2020-11-15 15:23:00","android","B000078","I7099","Youtube","409.5","H872","Furniture")
+      ("B17543","29839","11-15-2020 15:11:00","android","B000078","I7099","GOOGLE","6784","D634","Garden & Outdoors"),
+      ("B19304","30504","11-15-2020 15:27:00","android","B000078","I7099","LinkedIn","1320.5","C159","Baby"),
+      ("B29093","30334","11-15-2020 15:23:00","android","B000078","I7099","Youtube","409.5","H872","Furniture")
     ) .toDF("item_id","id","event_timestamp","device_type","session_id","visitor_id","redirection_source","item_price","product_type","department_name")
 
     val checkFlag:Boolean = jointDf.except(expectedDf).union(expectedDf.except(jointDf)).isEmpty

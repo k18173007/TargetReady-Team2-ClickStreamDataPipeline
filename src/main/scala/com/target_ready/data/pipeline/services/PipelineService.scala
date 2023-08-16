@@ -17,6 +17,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val ITEM_DATA_DF: DataFrame = readFile(INPUT_FILE_PATH_ITEM_DATA, INPUT_FORMAT_ITEM_DATA)(spark)
     val CLICKSTREAM_DATA_DF: DataFrame = readFile(INPUT_FILE_PATH_CLICKSTREAM_DATA, INPUT_FORMAT_CLICKSTREAM)(spark)
+    logInfo("Reading Clickstream data and Item data from input location complete.")
 
 
     /** ==============================================================================================================
@@ -24,7 +25,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val CONCATENATED_ITEM_DATA = concatenateColumns(ITEM_DATA_DF, COLUMN_NAMES_ITEM_DATA,VALUE,",")
     val CONCATENATED_CLICKSTREAM_DATA = concatenateColumns(CLICKSTREAM_DATA_DF, COLUMN_NAMES_CLICKSTREAM_DATA,VALUE,",")
-    logInfo("Clickstream data read from input location complete.")
+    logInfo("Concatenating Clickstream data and Item data complete.")
 
 
 
@@ -118,9 +119,11 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *              Saving the final transformed data in output location in required output format(.orc)
      *  ============================================================================================================ */
-    writeDataToSqlServer(JOINED_DF, JDBC_DRIVER, STAGING_TABLE, JDBC_URL, USER_NAME, KEY_PASSWORD,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
+    writeDataToSqlServer(JOINED_DF, STAGING_TABLE, JDBC_URL ,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
     logInfo("Writing data into MySql table complete")
 
   }
 
 }
+
+

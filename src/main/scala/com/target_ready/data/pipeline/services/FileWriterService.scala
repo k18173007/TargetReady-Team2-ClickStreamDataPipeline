@@ -1,9 +1,11 @@
 package com.target_ready.data.pipeline.services
 
-import com.target_ready.data.pipeline.exceptions.FileWriterException
+import com.target_ready.data.pipeline.exceptions.{FileWriterException,FileReaderException}
 import com.target_ready.data.pipeline.constants.ApplicationConstants.{CHECKPOINT_LOCATION, SERVER_ID}
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.streaming.{OutputMode,Trigger}
+import org.apache.spark.sql.streaming.{OutputMode, Trigger}
+
+import java.util.Properties
 
 object FileWriterService {
 
@@ -45,7 +47,7 @@ object FileWriterService {
         .option("path", filePath)
         .option("checkpointLocation", CHECKPOINT_LOCATION)
         .start()
-        .awaitTermination(10000)
+        .awaitTermination(timeoutMs = timeout)
 
     } catch {
       case e: Exception => FileWriterException("Unable to write files to the location: " + filePath)
@@ -59,13 +61,26 @@ object FileWriterService {
    *  FUNCTIONS TO SAVE DATA INTO SQL TABLE
    *
    *  @param df          the dataframe taken as an input
-   *  @param driver      MySql driver
    *  @param tableName   MySql table name
    *  @param jdbcUrl     jdbc URL
-   *  @param user        MySql database username
-   *  @param password    MySql database password
    *  ============================================================================================================ */
-  def writeDataToSqlServer(df: DataFrame, driver: String, tableName: String, jdbcUrl: String, user: String, password: String, timeout: Int): Unit = {
+  def writeDataToSqlServer(df: DataFrame, tableName: String, jdbcUrl: String, timeout: Int): Unit = {
+
+    val properties = new Properties()
+
+    // Read properties from the configuration file
+    try {
+      val configFile = getClass.getResourceAsStream("/mySqlConfig.properties")
+      properties.load(configFile)
+    } catch {
+      case e: Exception =>
+        FileReaderException("Error loading configuration file: /mySqlConfig.properties")
+    }
+
+    val userName :String = properties.getProperty("spark.mysql.username")
+    val password :String = properties.getProperty("spark.mysql.password")
+    val driver :String = properties.getProperty("spark.mysql.driver")
+
     try {
       df.writeStream
         .foreachBatch { (batchDF: DataFrame, batchId: Long) =>
@@ -74,13 +89,13 @@ object FileWriterService {
             .option("driver", driver)
             .option("url", jdbcUrl)
             .option("dbtable", tableName)
-            .option("user", user)
+            .option("user", userName)
             .option("password", password)
             .mode("overwrite")
             .save()
         }
         .outputMode(OutputMode.Append())
-        .start().awaitTermination(150000)
+        .start().awaitTermination(timeoutMs = timeout)
     } catch {
       case e: Exception => FileWriterException("Unable to write files to the location: " + jdbcUrl + "/" + tableName)
     }
@@ -105,7 +120,7 @@ object FileWriterService {
         .option("checkpointLocation", CHECKPOINT_LOCATION)
         .trigger(Trigger.Once())
         .start()
-        .awaitTermination(10000)
+        .awaitTermination(timeoutMs = timeout)
     } catch {
       case e: Exception => FileWriterException("Unable to write files to the location: " + filePath)
     }

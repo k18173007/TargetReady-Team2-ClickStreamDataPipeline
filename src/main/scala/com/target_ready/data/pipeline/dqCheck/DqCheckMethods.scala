@@ -40,7 +40,7 @@ object DqCheckMethods {
    *
    * @param df                the dataframe
    * @param KeyColumns        sequence of key columns of the df dataframe
-   * @param orderByColumn
+   * @param orderByCol
    * @return                  true: if no duplicate value is found and vice-versa
    * =============================================================================================================*/
   def DqDuplicateCheck(df: DataFrame, KeyColumns: Seq[String], orderByCol: String): Boolean = {

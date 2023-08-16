@@ -19,8 +19,8 @@ class DbServiceTest extends AnyFlatSpec with Helper {
 
   "Function sqlReader" should "write the data into the output MySql Table" in {
 
-    sqlWriter(testDf, JDBC_DRIVER_TEST, TABLE_NAME_TEST, JDBC_URL_TEST, USER_NAME_TEST, KEY_PASSWORD_TEST)
-    val sqlReaderDf: DataFrame = sqlReader(JDBC_DRIVER_TEST, TABLE_NAME_TEST, JDBC_URL_TEST, USER_NAME_TEST, KEY_PASSWORD_TEST)(spark)
+    sqlWriter(testDf, TABLE_NAME_TEST, JDBC_URL_TEST)
+    val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
 
     val sqlReaderDfCount = sqlReaderDf.count()
     if (testDfCount != 0) assertResult(testDfCount)(sqlReaderDfCount)
@@ -37,7 +37,7 @@ class DbServiceTest extends AnyFlatSpec with Helper {
   "Function sqlReader" should "read the data from the source MySql Table" in {
 
     val expectedDF = testDf
-    val sqlReaderDf: DataFrame = sqlReader(JDBC_DRIVER_TEST, TABLE_NAME_TEST, JDBC_URL_TEST, USER_NAME_TEST, KEY_PASSWORD_TEST)(spark)
+    val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
 
     val checkFlag: Boolean = sqlReaderDf.except(expectedDF).union(expectedDF.except(sqlReaderDf)).isEmpty
     assert(checkFlag)

@@ -15,11 +15,11 @@ object ApplicationUtil {
 
     // Read properties from the configuration file
     try {
-      val configFile = getClass.getResourceAsStream("/spark.properties")
+      val configFile = getClass.getResourceAsStream("/sparkConfig.properties")
       properties.load(configFile)
     } catch {
       case e: Exception =>
-        FileReaderException("Error loading configuration file: /spark.properties")
+        FileReaderException("Error loading configuration file: /sparkConfig.properties")
     }
 
 

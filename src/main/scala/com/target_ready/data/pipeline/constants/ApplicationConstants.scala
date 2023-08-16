@@ -96,8 +96,6 @@ object ApplicationConstants {
 
   //  Database Configurations
   val DB_NAME: String = "stream1"
-  val USER_NAME: String = "root"
-  val KEY_PASSWORD: String = "Krishna@123"
   val MYSQL_SERVER_ID_PORT:String="localhost:3306"
 
   // MySql Table Names
@@ -106,7 +104,6 @@ object ApplicationConstants {
 
   //  jdbc configurations
   val JDBC_URL: String = "jdbc:mysql://" + ApplicationConstants.MYSQL_SERVER_ID_PORT + "/" + ApplicationConstants.DB_NAME
-  val JDBC_DRIVER: String = "com.mysql.cj.jdbc.Driver"
 
   // Timeout
   val SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT: Int = 150000
