@@ -10,7 +10,7 @@ import org.apache.spark.sql.DataFrame
 class DqCheckServiceTest extends AnyFlatSpec with Helper {
 
   //  Creating Sample Dataframes for Testing
-  val testDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
+  val testDf: DataFrame = sqlReader(TABLE_NAME_TEST)(spark)
   val testDfCount: Long = testDf.count()
 
 
@@ -31,11 +31,11 @@ class DqCheckServiceTest extends AnyFlatSpec with Helper {
 
 
     //  Executing sqlWriter() Method
-    sqlWriter(testDf, TABLE_NAME_FINAL_TEST, JDBC_URL_TEST)
+    sqlWriter(testDf, TABLE_NAME_FINAL_TEST)
 
 
     //  Executing sqlReader() Method
-    val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_FINAL_TEST, JDBC_URL_TEST)(spark)
+    val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_FINAL_TEST)(spark)
 
 
     //  Comparing Expected Dataframe and Dq check Dataframe

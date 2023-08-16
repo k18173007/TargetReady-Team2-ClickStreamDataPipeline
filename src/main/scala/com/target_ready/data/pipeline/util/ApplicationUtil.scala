@@ -1,36 +1,32 @@
 package com.target_ready.data.pipeline.util
 
 import org.apache.spark.sql.SparkSession
-import java.util.Properties
-import com.target_ready.data.pipeline.exceptions.FileReaderException
+import com.typesafe.config.{Config, ConfigFactory}
 
 object ApplicationUtil {
 
+  // Read properties from the config file
+  val config: Config = ConfigFactory.load("application.conf")
+
+  val appName: String = config.getString("spark.app.name")
+  val master: String = config.getString("spark.master")
+  val executorMemory: String = config.getString("spark.executor.memory")
+  val broadcastTimeout: String = config.getString("spark.sql.broadcastTimeout")
+  val autoBroadcastJoinThreshold: String = config.getString("spark.sql.autoBroadcastJoinThreshold")
+
   /** ==============================================================================================================
-   *                                        FUNCTION TO CREATE SPARK SESSION
+   *                                      FUNCTION TO CREATE SPARK SESSION
    *  ============================================================================================================ */
   def createSparkSession(): SparkSession = {
-
-    val properties = new Properties()
-
-    // Read properties from the configuration file
-    try {
-      val configFile = getClass.getResourceAsStream("/sparkConfig.properties")
-      properties.load(configFile)
-    } catch {
-      case e: Exception =>
-        FileReaderException("Error loading configuration file: /sparkConfig.properties")
-    }
-
 
     // Creating spark session
     val spark: SparkSession =
       SparkSession.builder()
-        .appName(properties.getProperty("spark.app.name"))
-        .master(properties.getProperty("spark.master"))
-        .config("spark.executor.memory", properties.getProperty("spark.executor.memory"))
-        .config("spark.sql.broadcastTimeout", properties.getProperty("spark.sql.broadcastTimeout"))
-        .config("spark.sql.autoBroadcastJoinThreshold", properties.getProperty("spark.sql.autoBroadcastJoinThreshold"))
+        .appName(appName)
+        .master(master)
+        .config("spark.executor.memory", executorMemory)
+        .config("spark.sql.broadcastTimeout", broadcastTimeout)
+        .config("spark.sql.autoBroadcastJoinThreshold", autoBroadcastJoinThreshold)
         .getOrCreate()
     spark
   }

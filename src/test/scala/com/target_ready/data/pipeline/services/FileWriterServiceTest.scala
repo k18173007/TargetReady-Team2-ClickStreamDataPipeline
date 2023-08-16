@@ -16,6 +16,7 @@ class FileWriterServiceTest extends AnyFlatSpec with Helper {
   val testDfCount: Long = testDf.count()
 
 
+
   /* =================================================================================================================
                                           Testing File Writer Method
     ================================================================================================================*/
@@ -36,11 +37,11 @@ class FileWriterServiceTest extends AnyFlatSpec with Helper {
 
 
       //  Saving the data into Output MySql table
-      writeDataToSqlServer(deDuplicatedDF, TABLE_NAME_TEST, JDBC_URL_TEST, TIMEOUT_TEST)
+      writeDataToSqlServer(deDuplicatedDF, TABLE_NAME_TEST, TIMEOUT_TEST)
 
 
       //  Reading Data from Output MySql table
-      val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
+      val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST)(spark)
       val sqlReaderDfCount = sqlReaderDf.count()
 
 

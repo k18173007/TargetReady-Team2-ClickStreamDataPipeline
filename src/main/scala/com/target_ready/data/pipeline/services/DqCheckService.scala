@@ -11,7 +11,7 @@ object DqCheckService extends Logging {
   def executeDqCheck()(implicit spark: SparkSession): Unit = {
 
     /** =========================================== READING DATA FROM MYSQL TABLE =========================================== */
-    val dfReadStaged: DataFrame = sqlReader(STAGING_TABLE, JDBC_URL)(spark)
+    val dfReadStaged: DataFrame = sqlReader(STAGING_TABLE)(spark)
 
 
     /** ================================================ CHECK NULL VALUES ================================================ */
@@ -26,7 +26,7 @@ object DqCheckService extends Logging {
 
     /** ========================================== WRITING TO PROD TABLE IN MYSQL ========================================== */
     if (dfCheckNull && dfCheckDuplicate) {
-      sqlWriter(dfReadStaged, PROD_TABLE, JDBC_URL)
+      sqlWriter(dfReadStaged, PROD_TABLE)
       logInfo("Data write to production table complete.")
 
     }

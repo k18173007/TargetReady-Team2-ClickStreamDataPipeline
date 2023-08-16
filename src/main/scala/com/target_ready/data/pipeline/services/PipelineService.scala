@@ -17,7 +17,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val ITEM_DATA_DF: DataFrame = readFile(INPUT_FILE_PATH_ITEM_DATA, INPUT_FORMAT_ITEM_DATA)(spark)
     val CLICKSTREAM_DATA_DF: DataFrame = readFile(INPUT_FILE_PATH_CLICKSTREAM_DATA, INPUT_FORMAT_CLICKSTREAM)(spark)
-    logInfo("Reading Clickstream data and Item data from input location complete.")
+    logInfo("Reading Clickstream data and Item data from input location Complete.")
 
 
     /** ==============================================================================================================
@@ -25,7 +25,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val CONCATENATED_ITEM_DATA = concatenateColumns(ITEM_DATA_DF, COLUMN_NAMES_ITEM_DATA,VALUE,",")
     val CONCATENATED_CLICKSTREAM_DATA = concatenateColumns(CLICKSTREAM_DATA_DF, COLUMN_NAMES_CLICKSTREAM_DATA,VALUE,",")
-    logInfo("Concatenating Clickstream data and Item data complete.")
+    logInfo("Concatenating Clickstream data and Item data Complete.")
 
 
 
@@ -34,7 +34,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     writeDataToStream(CONCATENATED_ITEM_DATA, TOPIC_NAME_ITEM_DATA)
     writeDataToStream(CONCATENATED_CLICKSTREAM_DATA, TOPIC_NAME_CLICKSTREAM_DATA)
-    logInfo("Sending the dataframe into kafka topic Complete")
+    logInfo("Sending the dataframes into kafka topics Complete")
 
 
 
@@ -43,7 +43,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val LOAD_DF_ITEM_DATA_DF = loadDataFromStream(TOPIC_NAME_ITEM_DATA)(spark)
     val LOAD_CLICKSTREAM_DF = loadDataFromStream(TOPIC_NAME_CLICKSTREAM_DATA)(spark)
-    logInfo("Subscribing to the topic and reading data from stream Complete")
+    logInfo("leading the data from kafka streams Complete")
 
 
     /** ==============================================================================================================
@@ -51,7 +51,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val SPLIT_DATA_DF: DataFrame = splitColumns(LOAD_DF_ITEM_DATA_DF,VALUE,",",COLUMN_NAMES_ITEM_DATA)
     val SPLIT_CLICKSTREAM_DATA_DF: DataFrame = splitColumns(LOAD_CLICKSTREAM_DF,VALUE,",",COLUMN_NAMES_CLICKSTREAM_DATA)
-    logInfo("Splitting Dataframe value-column-data into Multiple Columns Complete")
+    logInfo("Splitting Dataframe's value-column into Multiple Columns Complete")
 
 
 
@@ -60,7 +60,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val VALIDATED_ITEM_DATA_DF = dataTypeValidation(SPLIT_DATA_DF, COLUMNS_VALID_DATATYPE_ITEM,NEW_DATATYPE_ITEM)
     val VALIDATED_CLICKSTREAM_DF = dataTypeValidation(SPLIT_CLICKSTREAM_DATA_DF, COLUMNS_VALID_DATATYPE_CLICKSTREAM,NEW_DATATYPE_CLICKSTREAM)
-
+    logInfo("DataType validations on dataframes Complete")
 
 
     /** ==============================================================================================================
@@ -68,7 +68,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val UPPERCASE_DF = uppercaseColumns(VALIDATED_ITEM_DATA_DF)
     val UPPERCASE_CLICKSTREAM_DF = uppercaseColumns(VALIDATED_CLICKSTREAM_DF)
-    logInfo("Converting SPLIT_DATA_DF to UPPERCASE Complete")
+    logInfo("Converting dataframes to UPPERCASE Complete")
 
 
 
@@ -77,7 +77,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val TRIMMED_DF = trimColumn(UPPERCASE_DF)
     val TRIMMED_CLICKSTREAAM_DF = trimColumn(UPPERCASE_CLICKSTREAM_DF)
-    logInfo("Trimming UPPERCASE_DF Complete")
+    logInfo("Trimming dataframes Complete")
 
 
 
@@ -86,7 +86,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val REMOVED_NULL_VAL_DF = findRemoveNullKeys(TRIMMED_DF, COLUMNS_CHECK_NULL_DQ_CHECK_ITEM_DATA,NULL_VALUE_PATH,NULL_VALUE_FILE_FORMAT)
     val REMOVED_NULL_VAL_CLICKSTREAM_DF = findRemoveNullKeys(TRIMMED_CLICKSTREAAM_DF, COLUMNS_PRIMARY_KEY_CLICKSTREAM,NULL_VALUE_PATH,NULL_VALUE_FILE_FORMAT)
-    logInfo("Removing null value rows from TRIMMED_DF Complete")
+    logInfo("Removing null value rows from dataframes Complete")
 
 
 
@@ -95,7 +95,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val REMOVED_DUP_VAL_DF = dropDuplicates(REMOVED_NULL_VAL_DF, COLUMNS_PRIMARY_KEY_ITEM_DATA)
     val REMOVED_DUP_VAL_CLICKSTREAM_DF = dropDuplicates(REMOVED_NULL_VAL_CLICKSTREAM_DF, COLUMNS_PRIMARY_KEY_CLICKSTREAM)
-    logInfo("Removing duplicate rows from REMOVED_NULL_VAL_DF Complete")
+    logInfo("Removing duplicate rows from dataframes Complete")
 
 
 
@@ -104,7 +104,7 @@ object PipelineService extends Logging {
      *  ============================================================================================================ */
     val LOWERCASE_ITEM_DATA_DF = lowercaseColumns(REMOVED_DUP_VAL_DF,COLUMNS_TO_LOWERCASE_ITEM_DATA)
     val LOWERCASE_CLICKSTREAM_DF = lowercaseColumns(REMOVED_DUP_VAL_CLICKSTREAM_DF,COLUMNS_TO_LOWERCASE_CLICKSTREAM_DATA)
-    logInfo("Converting REMOVED_NULL_VAL_DF to LOWERCASE Complete")
+    logInfo("Converting dataframes to LOWERCASE Complete")
 
 
 
@@ -119,8 +119,8 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *              Saving the final transformed data in output location in required output format(.orc)
      *  ============================================================================================================ */
-    writeDataToSqlServer(JOINED_DF, STAGING_TABLE, JDBC_URL ,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
-    logInfo("Writing data into MySql table complete")
+    writeDataToSqlServer(JOINED_DF, STAGING_TABLE ,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
+    logInfo("Writing joined dataframe into staging MySql table Complete")
 
   }
 

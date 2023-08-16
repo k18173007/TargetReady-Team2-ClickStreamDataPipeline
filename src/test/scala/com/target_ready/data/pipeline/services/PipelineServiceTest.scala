@@ -41,11 +41,11 @@ class PipelineServiceTest extends AnyFlatSpec with Helper {
 
 
       //  Saving the data into staging MySql table
-      writeDataToSqlServer(lowercaseColumnsDf, TABLE_NAME_TEST, JDBC_URL_TEST, TIMEOUT_TEST)
+      writeDataToSqlServer(lowercaseColumnsDf, TABLE_NAME_TEST, TIMEOUT_TEST)
 
 
       //  Reading the staged data and comparing it with Input data
-      val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
+      val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST)(spark)
       val sqlReaderDfCount = sqlReaderDf.count()
 
 

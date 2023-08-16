@@ -5,6 +5,9 @@ _Contains code and other configurations required to process clickstream data
 ## Use Case
 The pipeline reads static data, transform, performs data quality checks and load data to a structured database and draw insights out of the dataset in form of visualizations.
 
+## pipeline Flow-chart
+![](../../../Users/kkweb/Downloads/architecture.drawio.png)
+
 ### Source
 Source of data for this pipeline is the clickstream and item dataset in the CSV format.
 

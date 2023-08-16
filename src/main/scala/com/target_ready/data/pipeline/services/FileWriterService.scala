@@ -1,20 +1,20 @@
 package com.target_ready.data.pipeline.services
 
-import com.target_ready.data.pipeline.exceptions.{FileWriterException,FileReaderException}
+import com.target_ready.data.pipeline.exceptions.{FileWriterException}
 import com.target_ready.data.pipeline.constants.ApplicationConstants.{CHECKPOINT_LOCATION, SERVER_ID}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.streaming.{OutputMode, Trigger}
-
-import java.util.Properties
+import com.typesafe.config.ConfigFactory
 
 object FileWriterService {
 
   /** ===============================================================================================================
-   *  FUNCTION TO WRITE DATA INTO KAFKA STREAM
+   * FUNCTION TO WRITE DATA INTO KAFKA STREAM
    *
-   *  @param df             the dataframe taken as an input
-   *  @param topic          kafka topic name
-   *  ==============================================================================================================*/
+   *
+   * @param df    the dataframe taken as an input
+   * @param topic kafka topic name
+   *              ============================================================================================================== */
   def writeDataToStream(df: DataFrame, topic: String): Unit = {
     try {
       df
@@ -30,16 +30,15 @@ object FileWriterService {
   }
 
 
-
-
   /** ===============================================================================================================
-   *  FUNCTIONS TO SAVE DATA INTO OUTPUT LOCATION
+   * FUNCTIONS TO SAVE DATA INTO OUTPUT LOCATION
    *
-   *  @param df             the dataframe taken as an input
-   *  @param filePath       the location where null values will be written
-   *  @param fileFormat     specifies format of the file
-   *  ==============================================================================================================*/
-  def writeDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String,timeout:Int): Unit = {
+   *
+   * @param df         the dataframe taken as an input
+   * @param filePath   the location where null values will be written
+   * @param fileFormat specifies format of the file
+   *                   ============================================================================================================== */
+  def writeDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String, timeout: Int): Unit = {
     try {
       df.writeStream
         .outputMode("append")
@@ -55,31 +54,27 @@ object FileWriterService {
   }
 
 
-
-
   /** ===============================================================================================================
-   *  FUNCTIONS TO SAVE DATA INTO SQL TABLE
+   * FUNCTIONS TO SAVE DATA INTO SQL TABLE
    *
-   *  @param df          the dataframe taken as an input
-   *  @param tableName   MySql table name
-   *  @param jdbcUrl     jdbc URL
-   *  ============================================================================================================ */
-  def writeDataToSqlServer(df: DataFrame, tableName: String, jdbcUrl: String, timeout: Int): Unit = {
+   *
+   * @param df        the dataframe taken as an input
+   * @param tableName MySql table name
+   *                  ============================================================================================================ */
+  def writeDataToSqlServer(df: DataFrame, tableName: String, timeout: Int): Unit = {
 
-    val properties = new Properties()
+    // Read properties from the config file
+    val config = ConfigFactory.load("application.conf")
 
-    // Read properties from the configuration file
-    try {
-      val configFile = getClass.getResourceAsStream("/mySqlConfig.properties")
-      properties.load(configFile)
-    } catch {
-      case e: Exception =>
-        FileReaderException("Error loading configuration file: /mySqlConfig.properties")
-    }
+    val user: String = config.getString("database.user")
+    val password: String = config.getString("database.password")
+    val jdbcUrl: String = config.getString("database.url")
+    val driver: String = config.getString("database.driver")
 
-    val userName :String = properties.getProperty("spark.mysql.username")
-    val password :String = properties.getProperty("spark.mysql.password")
-    val driver :String = properties.getProperty("spark.mysql.driver")
+    val connectionProperties = new java.util.Properties()
+    connectionProperties.put("user", user)
+    connectionProperties.put("password", password)
+    connectionProperties.put("driver", driver)
 
     try {
       df.writeStream
@@ -89,7 +84,7 @@ object FileWriterService {
             .option("driver", driver)
             .option("url", jdbcUrl)
             .option("dbtable", tableName)
-            .option("user", userName)
+            .option("user", user)
             .option("password", password)
             .mode("overwrite")
             .save()
@@ -102,16 +97,15 @@ object FileWriterService {
   }
 
 
-
-
   /** ===============================================================================================================
-   *  FUNCTION TO SAVE NULL-VALUE DATA INTO NULL-VALUE-OUTPUT LOCATION
+   * FUNCTION TO SAVE NULL-VALUE DATA INTO NULL-VALUE-OUTPUT LOCATION
    *
-   *  @param df             the dataframe taken as an input
-   *  @param filePath       the location where null values will be written
-   *  @param fileFormat     specifies format of the file
-   *  ============================================================================================================== */
-  def writeNullDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String,timeout:Int): Unit = {
+   *
+   * @param df         the dataframe taken as an input
+   * @param filePath   the location where null values will be written
+   * @param fileFormat specifies format of the file
+   *                   ============================================================================================================== */
+  def writeNullDataToOutputDir(df: DataFrame, fileFormat: String, filePath: String, timeout: Int): Unit = {
     try {
       df.writeStream
         .outputMode("append")

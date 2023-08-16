@@ -28,7 +28,7 @@ class JoinTransformationTest extends AnyFlatSpec with Helper{
     ).toDF("item_id","item_price","product_type","department_name")
 
     val jointDf: DataFrame = joinTable(clickstreamDf, itemDf,JOIN_KEY_TESTING,JOIN_TYPE_TESTING)
-    sqlWriter(jointDf, JOIN_TABLE_NAME_TEST, JDBC_URL_TEST)
+    sqlWriter(jointDf, JOIN_TABLE_NAME_TEST)
 
     val expectedDf : DataFrame = Seq(
       ("B17543","29839","11-15-2020 15:11:00","android","B000078","I7099","GOOGLE","6784","D634","Garden & Outdoors"),

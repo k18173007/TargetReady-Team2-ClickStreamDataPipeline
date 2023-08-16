@@ -9,7 +9,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class DqCheckMethodsTest extends AnyFlatSpec with Helper {
 
   //  Creating Sample Dataframes for Testing
-  val testDf: DataFrame = sqlReader(TABLE_NAME_TEST, JDBC_URL_TEST)(spark)
+  val testDf: DataFrame = sqlReader(TABLE_NAME_TEST)(spark)
   val testDfCount: Long = testDf.count()
 
 

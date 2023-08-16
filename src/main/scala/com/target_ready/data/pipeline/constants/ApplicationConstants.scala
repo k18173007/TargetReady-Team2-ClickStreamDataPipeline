@@ -94,16 +94,9 @@ object ApplicationConstants {
    *                                            MYSQL SERVER CONFIGURATIONS
    * ============================================================================================================ */
 
-  //  Database Configurations
-  val DB_NAME: String = "stream1"
-  val MYSQL_SERVER_ID_PORT:String="localhost:3306"
-
   // MySql Table Names
   val STAGING_TABLE = "staging"
   val PROD_TABLE = "prod"
-
-  //  jdbc configurations
-  val JDBC_URL: String = "jdbc:mysql://" + ApplicationConstants.MYSQL_SERVER_ID_PORT + "/" + ApplicationConstants.DB_NAME
 
   // Timeout
   val SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT: Int = 150000
