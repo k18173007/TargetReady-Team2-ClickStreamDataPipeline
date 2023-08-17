@@ -10,8 +10,8 @@ object ApplicationConstants {
   val SERVER_ID: String = "localhost:9092"
 
   //  Kafka Topic Names
-  val TOPIC_NAME_ITEM_DATA: String = "FinalTestingITEM"
-  val TOPIC_NAME_CLICKSTREAM_DATA: String = "FinalTestingCLICKSTREAM"
+  val TOPIC_NAME_ITEM_DATA: String = "itemData"
+  val TOPIC_NAME_CLICKSTREAM_DATA: String = "clickStreamData"
 
   val CHECKPOINT_LOCATION: String = "checkpoint"
 

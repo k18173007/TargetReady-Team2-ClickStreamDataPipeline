@@ -8,6 +8,7 @@ import com.target_ready.data.pipeline.cleanser.Cleanser._
 import com.target_ready.data.pipeline.transform.JoinTransformation._
 import org.apache.spark.internal.Logging
 
+
 object PipelineService extends Logging {
 
   def executePipeline()(implicit spark: SparkSession): Unit = {
@@ -18,6 +19,7 @@ object PipelineService extends Logging {
     val ITEM_DATA_DF: DataFrame = readFile(INPUT_FILE_PATH_ITEM_DATA, INPUT_FORMAT_ITEM_DATA)(spark)
     val CLICKSTREAM_DATA_DF: DataFrame = readFile(INPUT_FILE_PATH_CLICKSTREAM_DATA, INPUT_FORMAT_CLICKSTREAM)(spark)
     logInfo("Reading Clickstream data and Item data from input location Complete.")
+
 
 
     /** ==============================================================================================================
@@ -41,16 +43,17 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *                           Subscribing to the topic and reading data from stream
      *  ============================================================================================================ */
-    val LOAD_DF_ITEM_DATA_DF = loadDataFromStream(TOPIC_NAME_ITEM_DATA)(spark)
-    val LOAD_CLICKSTREAM_DF = loadDataFromStream(TOPIC_NAME_CLICKSTREAM_DATA)(spark)
+    val STREAMING_ITEM_DF = loadDataFromStream(TOPIC_NAME_ITEM_DATA)(spark)
+    val STREAMING_CLICKSTREAM_DF = loadDataFromStream(TOPIC_NAME_CLICKSTREAM_DATA)(spark)
     logInfo("leading the data from kafka streams Complete")
+
 
 
     /** ==============================================================================================================
      *                        Splitting Dataframe value-column-data into Multiple Columns
      *  ============================================================================================================ */
-    val SPLIT_DATA_DF: DataFrame = splitColumns(LOAD_DF_ITEM_DATA_DF,VALUE,",",COLUMN_NAMES_ITEM_DATA)
-    val SPLIT_CLICKSTREAM_DATA_DF: DataFrame = splitColumns(LOAD_CLICKSTREAM_DF,VALUE,",",COLUMN_NAMES_CLICKSTREAM_DATA)
+    val SPLIT_ITEM_DF: DataFrame = splitColumns(STREAMING_ITEM_DF,VALUE,",",COLUMN_NAMES_ITEM_DATA)
+    val SPLIT_CLICKSTREAM_DF: DataFrame = splitColumns(STREAMING_CLICKSTREAM_DF,VALUE,",",COLUMN_NAMES_CLICKSTREAM_DATA)
     logInfo("Splitting Dataframe's value-column into Multiple Columns Complete")
 
 
@@ -58,8 +61,8 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *                                            Validating Dataframes
      *  ============================================================================================================ */
-    val VALIDATED_ITEM_DATA_DF = dataTypeValidation(SPLIT_DATA_DF, COLUMNS_VALID_DATATYPE_ITEM,NEW_DATATYPE_ITEM)
-    val VALIDATED_CLICKSTREAM_DF = dataTypeValidation(SPLIT_CLICKSTREAM_DATA_DF, COLUMNS_VALID_DATATYPE_CLICKSTREAM,NEW_DATATYPE_CLICKSTREAM)
+    val VALIDATED_ITEM_DATA_DF = dataTypeValidation(SPLIT_ITEM_DF, COLUMNS_VALID_DATATYPE_ITEM,NEW_DATATYPE_ITEM)
+    val VALIDATED_CLICKSTREAM_DF = dataTypeValidation(SPLIT_CLICKSTREAM_DF, COLUMNS_VALID_DATATYPE_CLICKSTREAM,NEW_DATATYPE_CLICKSTREAM)
     logInfo("DataType validations on dataframes Complete")
 
 
