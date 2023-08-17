@@ -32,7 +32,10 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.15" % Test,
 
   //  Config props reader library
-  "com.typesafe" % "config" % "1.4.2"
+  "com.typesafe" % "config" % "1.4.2",
+
+  //  PostgreSQL Connector libraries
+  "org.postgresql" % "postgresql" % "42.3.1"
 )
 
 

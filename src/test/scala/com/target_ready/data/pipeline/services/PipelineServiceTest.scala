@@ -1,8 +1,8 @@
 package com.target_ready.data.pipeline.services
 
 import com.target_ready.data.pipeline.Helper.Helper
-import com.target_ready.data.pipeline.cleanser.Cleanser.{concatenateColumns, dataTypeValidation, dropDuplicates, findRemoveNullKeys, lowercaseColumns, splitColumns, trimColumn, uppercaseColumns}
-import com.target_ready.data.pipeline.services.DbService.sqlReader
+import com.target_ready.data.pipeline.cleanser.DataCleanerMethod.{concatenateColumns, dataTypeValidation, dropDuplicates, findRemoveNullKeys, lowercaseColumns, splitColumns, trimColumn, uppercaseColumns}
+import com.target_ready.data.pipeline.services.DatabaseService.sqlReader
 import com.target_ready.data.pipeline.services.FileReaderService.{loadDataFromStream, readFile}
 import com.target_ready.data.pipeline.services.FileWriterService.{writeDataToSqlServer, writeDataToStream}
 import org.apache.spark.sql.DataFrame
@@ -20,7 +20,7 @@ class PipelineServiceTest extends AnyFlatSpec with Helper {
                                           Testing Pipeline Service
     ================================================================================================================*/
 
-  "This Testing Method will execute whole pipeline. The test" should "fail if Input data and Staged MySql data counts doesn't match" in {
+  "This Testing Method will execute whole pipeline. The test" should "fail if Input data and Staged PostgreSQL data counts doesn't match" in {
 
     if (testDfCount != 0) {
 
@@ -40,7 +40,7 @@ class PipelineServiceTest extends AnyFlatSpec with Helper {
       val lowercaseColumnsDf: DataFrame = lowercaseColumns(deDuplicatedDF, COLUMNS_TO_LOWERCASE_TEST)
 
 
-      //  Saving the data into staging MySql table
+      //  Saving the data into staging PostgreSQL table
       writeDataToSqlServer(lowercaseColumnsDf, TABLE_NAME_TEST, TIMEOUT_TEST)
 
 
@@ -49,8 +49,8 @@ class PipelineServiceTest extends AnyFlatSpec with Helper {
       val sqlReaderDfCount = sqlReaderDf.count()
 
 
-      //  Comparing the Input data counts and Staged MySql data counts.
-      //  Test will fail if Input data (testDfCount) and Staged MySql data (sqlReaderDfCount) have different values.
+      //  Comparing the Input data counts and Staged PostgreSQL data counts.
+      //  Test will fail if Input data (testDfCount) and Staged PostgreSQL data (sqlReaderDfCount) have different values.
       assertResult(testDfCount)(sqlReaderDfCount)
     }
   }

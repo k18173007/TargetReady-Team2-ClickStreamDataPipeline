@@ -72,21 +72,16 @@ trait Helper {
   val ORDER_BY_COL: String = "event_timestamp"
 
 
-
-  //  jdbc configurations
-  val JDBC_URL_TEST: String = "jdbc:mysql://localhost:3306/stream1"
-  val JDBC_DRIVER_TEST: String = "com.mysql.cj.jdbc.Driver"
-
-
-  // MySql Table Names
+  // PostgreSQL Table Names
   val TABLE_NAME_TEST = "stagingTest"
   val TABLE_NAME_FINAL_TEST = "prodTest"
 
-  // MySql join Table for Testing
+
+  // PostgreSQL join Table for Testing
   val JOIN_TABLE_NAME_TEST = "joinTableTesting"
 
 
-  //  MySql Server Username, Password
+  //  PostgreSQL Server Username, Password
   val USER_NAME_TEST: String = "root"
   val KEY_PASSWORD_TEST: String = "Krishna@123"
 

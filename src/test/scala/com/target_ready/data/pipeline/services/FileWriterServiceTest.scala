@@ -5,8 +5,8 @@ import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 import com.target_ready.data.pipeline.services.FileReaderService._
 import com.target_ready.data.pipeline.services.FileWriterService._
-import com.target_ready.data.pipeline.cleanser.Cleanser._
-import com.target_ready.data.pipeline.services.DbService.{sqlReader, sqlWriter}
+import com.target_ready.data.pipeline.cleanser.DataCleanerMethod._
+import com.target_ready.data.pipeline.services.DatabaseService.{sqlReader, sqlWriter}
 
 
 class FileWriterServiceTest extends AnyFlatSpec with Helper {
@@ -36,17 +36,17 @@ class FileWriterServiceTest extends AnyFlatSpec with Helper {
       val deDuplicatedDF: DataFrame = dropDuplicates(splitColumnsDf, COLUMN_NAMES_TEST_DATA)
 
 
-      //  Saving the data into Output MySql table
+      //  Saving the data into Output PostgreSQL table
       writeDataToSqlServer(deDuplicatedDF, TABLE_NAME_TEST, TIMEOUT_TEST)
 
 
-      //  Reading Data from Output MySql table
+      //  Reading Data from Output PostgreSQL table
       val sqlReaderDf: DataFrame = sqlReader(TABLE_NAME_TEST)(spark)
       val sqlReaderDfCount = sqlReaderDf.count()
 
 
-      //  Comparing the Input data counts and Output MySql data counts.
-      //  Test will fail if Input data (testDfCount) and Output MySql Table data (sqlReaderDfCount) have different values.
+      //  Comparing the Input data counts and Output PostgreSQL data counts.
+      //  Test will fail if Input data (testDfCount) and Output PostgreSQL Table data (sqlReaderDfCount) have different values.
       assertResult(testDfCount)(sqlReaderDfCount)
 
     }

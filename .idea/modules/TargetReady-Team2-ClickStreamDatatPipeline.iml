@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="targetready-team2-clickstreamdatapipeline [file:/C:/target_ready/Phase%202/TargetReady-Team2-ClickStreamDataPipeline/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="targetready-team2-clickstreamdatapipeline [file:/C:/target_ready/Phase%202/demo/TargetReady-Team2-ClickStreamDataPipeline/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/../../target/scala-2.12/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-2.12/test-classes" />
@@ -128,6 +128,7 @@
     <orderEntry type="library" name="sbt: org.apache.yetus:audience-annotations:0.13.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.zookeeper:zookeeper-jute:3.6.3:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.zookeeper:zookeeper:3.6.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.checkerframework:checker-qual:3.5.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.codehaus.janino:commons-compiler:3.1.9:jar" level="project" />
     <orderEntry type="library" name="sbt: org.codehaus.janino:janino:3.1.9:jar" level="project" />
     <orderEntry type="library" name="sbt: org.fusesource.leveldbjni:leveldbjni-all:1.8:jar" level="project" />
@@ -151,6 +152,7 @@
     <orderEntry type="library" name="sbt: org.json4s:json4s-scalap_2.12:3.7.0-M11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.lz4:lz4-java:1.8.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.objenesis:objenesis:2.5.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.postgresql:postgresql:42.3.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.roaringbitmap:RoaringBitmap:0.9.38:jar" level="project" />
     <orderEntry type="library" name="sbt: org.roaringbitmap:shims:0.9.38:jar" level="project" />
     <orderEntry type="library" name="sbt: org.rocksdb:rocksdbjni:7.9.2:jar" level="project" />

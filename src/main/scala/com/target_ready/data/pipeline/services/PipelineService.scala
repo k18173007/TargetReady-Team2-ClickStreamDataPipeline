@@ -4,7 +4,7 @@ import com.target_ready.data.pipeline.services.FileReaderService._
 import com.target_ready.data.pipeline.services.FileWriterService._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import com.target_ready.data.pipeline.constants.ApplicationConstants._
-import com.target_ready.data.pipeline.cleanser.Cleanser._
+import com.target_ready.data.pipeline.cleanser.DataCleanerMethod._
 import com.target_ready.data.pipeline.transform.JoinTransformation._
 import org.apache.spark.internal.Logging
 
@@ -122,8 +122,8 @@ object PipelineService extends Logging {
     /** ==============================================================================================================
      *              Saving the final transformed data in output location in required output format(.orc)
      *  ============================================================================================================ */
-    writeDataToSqlServer(JOINED_DF, STAGING_TABLE ,SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT)
-    logInfo("Writing joined dataframe into staging MySql table Complete")
+    writeDataToSqlServer(JOINED_DF, STAGING_TABLE ,SAVE_DATA_TO_SQL_TABLE_TIMEOUT)
+    logInfo("Writing joined dataframe into staging PostgreSQL table Complete")
 
   }
 

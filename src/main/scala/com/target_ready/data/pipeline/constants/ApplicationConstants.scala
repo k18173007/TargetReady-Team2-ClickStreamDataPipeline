@@ -91,15 +91,15 @@ object ApplicationConstants {
 
 
   /** ============================================================================================================
-   *                                            MYSQL SERVER CONFIGURATIONS
+   *                                            PostgreSQL SERVER CONFIGURATIONS
    * ============================================================================================================ */
 
-  // MySql Table Names
+  // PostgreSQL Table Names
   val STAGING_TABLE = "staging"
   val PROD_TABLE = "prod"
 
   // Timeout
-  val SAVE_DATA_TO_MYSQL_TABLE_TIMEOUT: Int = 150000
+  val SAVE_DATA_TO_SQL_TABLE_TIMEOUT: Int = 150000
   val SAVE_DATA_TO_LOCAL_DIR_TIMEOUT: Int = 10000
 
 

@@ -1,10 +1,10 @@
 package com.target_ready.data.pipeline.transform
 
 import com.target_ready.data.pipeline.Helper.Helper
-import com.target_ready.data.pipeline.services.DbService.sqlWriter
+import com.target_ready.data.pipeline.services.DatabaseService.sqlWriter
 import com.target_ready.data.pipeline.transform.JoinTransformation._
 import org.scalatest.flatspec.AnyFlatSpec
-import org.apache.spark.sql.{DataFrame}
+import org.apache.spark.sql.DataFrame
 
 class JoinTransformationTest extends AnyFlatSpec with Helper{
 

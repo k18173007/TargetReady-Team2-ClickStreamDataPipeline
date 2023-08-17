@@ -3,7 +3,7 @@ package com.target_ready.data.pipeline
 import com.target_ready.data.pipeline.constants.ApplicationConstants
 import com.target_ready.data.pipeline.exceptions._
 import com.target_ready.data.pipeline.services.PipelineService
-import com.target_ready.data.pipeline.services.DqCheckService
+import com.target_ready.data.pipeline.services.DataQualityCheckService
 import com.target_ready.data.pipeline.util.ApplicationUtil.createSparkSession
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
@@ -28,7 +28,7 @@ object DataPipeline extends Logging {
 
       PipelineService.executePipeline()(spark)
       logInfo("Executing Pipeline complete.")
-      DqCheckService.executeDqCheck()(spark)
+      DataQualityCheckService.executeDqCheck()(spark)
       logInfo("Executing DqChecks complete.")
 
     } catch {

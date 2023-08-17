@@ -59,7 +59,7 @@ object FileWriterService {
    *
    *
    * @param df        the dataframe taken as an input
-   * @param tableName MySql table name
+   * @param tableName PostgreSQL table name
    *                  ============================================================================================================ */
   def writeDataToSqlServer(df: DataFrame, tableName: String, timeout: Int): Unit = {
 
@@ -69,19 +69,16 @@ object FileWriterService {
     val user: String = config.getString("database.user")
     val password: String = config.getString("database.password")
     val jdbcUrl: String = config.getString("database.url")
-    val driver: String = config.getString("database.driver")
 
     val connectionProperties = new java.util.Properties()
     connectionProperties.put("user", user)
     connectionProperties.put("password", password)
-    connectionProperties.put("driver", driver)
 
     try {
       df.writeStream
         .foreachBatch { (batchDF: DataFrame, batchId: Long) =>
           batchDF.write
             .format("jdbc")
-            .option("driver", driver)
             .option("url", jdbcUrl)
             .option("dbtable", tableName)
             .option("user", user)
